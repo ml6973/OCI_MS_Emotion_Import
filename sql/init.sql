@@ -5,6 +5,7 @@ USE oci_emotions;
 CREATE TABLE ImageCatalog (
   imageId   int(11) NOT NULL AUTO_INCREMENT UNIQUE,
   frameNumber     varchar(255) COLLATE utf8_unicode_ci,
+  numFace         int(4),
   sadness         DECIMAL(65, 30),
   neutral         DECIMAL(65, 30),
   contempt        DECIMAL(65, 30),

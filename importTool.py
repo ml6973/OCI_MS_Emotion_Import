@@ -17,18 +17,18 @@ def importToDB(data, fileName):
 
    try:
       if not json_results:
-         x.execute("""INSERT INTO ImageCatalog (frameNumber, sadness, neutral, 
+         x.execute("""INSERT INTO ImageCatalog (frameNumber, numFace, sadness, neutral, 
                                                 contempt, disgust, anger, 
                                                 surprise, fear, happiness) 
-                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                  (fileName, 0, 0, 0, 0, 0, 0, 0, 0)) 
+                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                  (fileName, 0, 0, 0, 0, 0, 0, 0, 0, 0)) 
 
       else:
-         x.execute("""INSERT INTO ImageCatalog (frameNumber, sadness, neutral, 
+         x.execute("""INSERT INTO ImageCatalog (frameNumber, numFace, sadness, neutral, 
                                                 contempt, disgust, anger, 
                                                 surprise, fear, happiness) 
-                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                  (fileName, json_results[0]['scores']['sadness'], json_results[0]['scores']['neutral'], 
+                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                  (fileName, "1", json_results[0]['scores']['sadness'], json_results[0]['scores']['neutral'], 
                   json_results[0]['scores']['contempt'], json_results[0]['scores']['disgust'], 
                   json_results[0]['scores']['anger'], json_results[0]['scores']['surprise'], 
                   json_results[0]['scores']['fear'], json_results[0]['scores']['happiness']))
