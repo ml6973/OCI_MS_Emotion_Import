@@ -5,6 +5,12 @@ import os
 def init():
     get_config()
 
+    global youtubeAPIUrl
+    youtubeAPIUrl = config.get('GlobalInformation', 'youtubeAPIUrl')
+
+    global youtubeAPIKey
+    youtubeAPIKey = config.get('GlobalInformation', 'youtubeAPIKey')
+
     global url
     url = config.get('GlobalInformation', 'url')
 

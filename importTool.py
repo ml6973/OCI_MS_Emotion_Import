@@ -4,8 +4,41 @@ import MySQLdb
 import os
 import requests
 import time
+import urlparse
 
-def importToDB(data, fileName):
+def importYouTubeVideoMetaData(videoName, videoURL):
+   globalVars.init()
+   videoURLData = urlparse.urlparse(videoURL)
+   query = urlparse.parse_qs(videoURLData.query)
+   videoID = query["v"][0]
+   requestLink = globalVars.youtubeAPIUrl.format(videoID, globalVars.youtubeAPIKey)
+   r = requests.get(requestLink)
+   if not r.status_code == requests.codes.ok:
+      print "YouTube API Error"
+      print r
+      print r.text
+      print r.json()
+      return
+   json_results = r.json()
+   description = json_results['items'][0]['snippet']['title']
+   conn = MySQLdb.connect(host=globalVars.dbIP,
+                        user=globalVars.dbUser,
+                        passwd=globalVars.dbPass,
+                        db="oci_emotions")
+   x = conn.cursor()
+
+   try:
+      x.execute("""INSERT INTO VideoMetaData (VideoName, VideoURL, Description) 
+                         VALUES (%s, %s, %s)""",
+                     (videoName, videoURL, description))
+
+      conn.commit()
+   except MySQLdb.Error as e:
+      conn.rollback()
+      print e
+
+
+def importEmotionToDB(data, fileName):
    globalVars.init()
    my_headers = {"Content-Type": 'application/octet-stream', "Ocp-Apim-Subscription-Key": globalVars.subKey}
    r = requests.post(globalVars.url, data=data, headers=my_headers)

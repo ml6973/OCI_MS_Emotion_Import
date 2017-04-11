@@ -20,3 +20,11 @@ CREATE TABLE ImageCatalog (
   RectangleWidth               int(11),
   RectangleHeight              int(11)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE VideoMetaData (
+   VideoId                     int(11) NOT NULL AUTO_INCREMENT UNIQUE,
+   VideoName                   varchar(255) NOT NULL COLLATE utf8_unicode_ci UNIQUE,
+   VideoURL                    varchar(255) COLLATE utf8_unicode_ci,
+   Description                 varchar(255) NOT NULL COLLATE utf8_unicode_ci
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
