@@ -15,6 +15,8 @@ The configuration file "config.txt" must be created in the configuration directo
 
 ```
 [GlobalInformation]
+youtubeAPIUrl = The API URL for the Youtube Data API V3
+youtubeAPIKey = The API Key for using the Youtube Data API V3
 url = The Request URL for the MS Emotion Recognition API
 subKey = The subscription key for the MS Emotion Recognition API
 dbIP = The IP Address for the MySQL database the results will be stored
