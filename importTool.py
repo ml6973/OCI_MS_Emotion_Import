@@ -26,17 +26,19 @@ def importToDB(data, fileName):
    x = conn.cursor()
 
    try:
+      FrameNumber = os.path.splitext(os.path.basename(data.name))[0]
       if not json_results:
-         pass
-         #x.execute("""INSERT INTO ImageCatalog (frameNumber, numFace, sadness, neutral, 
-         #                                       contempt, disgust, anger, 
-         #                                       surprise, fear, happiness) 
-         #             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-         #         (fileName, 0, 0, 0, 0, 0, 0, 0, 0, 0)) 
+         x.execute("""INSERT INTO ImageCatalog (VideoName, FrameNumber, NumFace, SadnessProbability, 
+                                                   NeutralProbability, ContemptProbability, 
+                                                   DisgustProbability, AngerProbability, 
+                                                   SurpriseProbability, FearProbability, 
+                                                   HappinessProbability, RectangleLeft,
+                                                   RectangleTop, RectangleWidth, RectangleHeight) 
+                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                     (fileName, FrameNumber, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
 
       else:
          NumFace = len(json_results)
-         FrameNumber = os.path.splitext(os.path.basename(data.name))[0]
          for face in json_results:
             x.execute("""INSERT INTO ImageCatalog (VideoName, FrameNumber, NumFace, SadnessProbability, 
                                                    NeutralProbability, ContemptProbability, 
