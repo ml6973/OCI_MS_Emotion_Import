@@ -28,6 +28,10 @@ def importYouTubeVideoMetaData(videoName, videoURL):
    x = conn.cursor()
 
    try:
+      x.execute("""SELECT VideoName FROM VideoMetaData WHERE VideoName = %s LIMIT 1""", (videoName,))
+      if not x.rowcount == 0:
+         raise ValueError("Video by the name " + videoName + " already exists.")
+
       x.execute("""INSERT INTO VideoMetaData (VideoName, VideoURL, Description) 
                          VALUES (%s, %s, %s)""",
                      (videoName, videoURL, description))
@@ -59,6 +63,10 @@ def importEmotionToDB(data, fileName):
    x = conn.cursor()
 
    try:
+      x.execute("""SELECT VideoName FROM ImageCatalog WHERE VideoName = %s LIMIT 1""", (fileName,))
+      if not x.rowcount == 0:
+         raise ValueError("Video by the name " + fileName + " already exists.")
+
       FrameNumber = os.path.splitext(os.path.basename(data.name))[0]
       if not json_results:
          x.execute("""INSERT INTO ImageCatalog (VideoName, FrameNumber, NumFace, SadnessProbability, 
