@@ -6,6 +6,28 @@ import requests
 import time
 import urlparse
 
+def importLocalVideoMetaData(videoName, description, videoURL='NA'): 
+   globalVars.init() 
+   conn = MySQLdb.connect(host=globalVars.dbIP, 
+                        user=globalVars.dbUser, 
+                        passwd=globalVars.dbPass, 
+                        db="oci_emotions") 
+   x = conn.cursor() 
+ 
+   try:
+      x.execute("""SELECT VideoName FROM VideoMetaData WHERE VideoName = %s LIMIT 1""", (videoName,))
+      if not x.rowcount == 0:
+         raise ValueError("Video by the name " + videoName + " already exists.")
+ 
+      x.execute("""INSERT INTO VideoMetaData (VideoName, VideoURL, Description)  
+                         VALUES (%s, %s, %s)""", 
+                     (videoName, videoURL, description)) 
+ 
+      conn.commit() 
+   except MySQLdb.Error as e: 
+      conn.rollback() 
+      print e
+
 def importYouTubeVideoMetaData(videoName, videoURL):
    globalVars.init()
    videoURLData = urlparse.urlparse(videoURL)
